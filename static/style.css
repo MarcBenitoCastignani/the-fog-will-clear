@@ -143,3 +143,42 @@ footer {
     border-top: 1px solid #ccc;
     margin-top: auto;
 }
+
+/* Mobile responsive tweaks */
+@media (max-width: 768px) {
+    .main-layout {
+        flex-direction: column;
+    }
+
+    .right-navbar {
+        width: 100%;
+        border-left: none;
+        border-top: 1px solid #ddd;
+        box-shadow: none;
+        padding: 10px 20px;
+    }
+
+    .site-title {
+        font-size: 32px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .header-img {
+        height: 100px;
+    }
+
+    .header-container {
+        justify-content: center;
+        text-align: center;
+    }
+
+    main {
+        padding: 15px;
+    }
+
+    .comment-form {
+        width: 100%;
+        padding: 0 10px;
+    }
+}
