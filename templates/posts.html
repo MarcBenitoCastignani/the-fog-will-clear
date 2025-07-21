@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    background: url("https://images.unsplash.com/photo-1532787792656-44d3cbbdd7f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80") no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Segoe UI', sans-serif;
+    color: #222;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post-container {
+    background-color: rgba(255, 255, 255, 0.92);
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 2rem 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1.5s ease-in-out;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    line-height: 1.7;
+    font-size: 1.1rem;
+    margin: 1rem 0;
+  }
+
+  ul {
+    padding-left: 1.5rem;
+  }
+
+  blockquote {
+    border-left: 5px solid #bbb;
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+    font-style: italic;
+    color: #444;
+  }
+
+  .btn {
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .btn-outline-primary {
+    background: none;
+    border: 1px solid #007bff;
+    color: #007bff;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+
+  .btn:hover {
+    opacity: 0.9;
+  }
+
+  textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-top: 1rem;
+  }
+
+  @keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="post-container">
+  <h1>Smoke Free. Fog Clear. Life Back.</h1>
+  <p style="font-style: italic; text-align: center; color: #777;">
+    Posted by {{ session['username'] if 'username' in session else 'Anonymous' }}
+  </p>
+
+  <p>I never thought I’d write these words — but here I am, over 3 weeks smoke free.</p>
+
+  <p>
+    For years, cigarettes were my comfort, my stress-relief, my go-to. I convinced myself I needed them to cope. But deep down, I knew they were stealing more than they were giving — my health, my energy, my confidence.
+  </p>
+
+  <p>
+    One day, something just clicked. Maybe it was the way I was out of breath climbing stairs. Maybe it was how tired I felt every morning. Or maybe I just got tired of the fog — not just the smoke in the air, but the fog in my mind.
+  </p>
+
+  <p>So I stopped.</p>
+
+  <p>
+    The first few days were rough — cravings, mood swings, self-doubt. But then something shifted. I started breathing deeper. My skin looked better. Food tasted incredible. I started <strong>feeling</strong> again.
+  </p>
+
+  <h3>What’s helped me stay strong?</h3>
+  <ul>
+    <li>Prayer and quiet moments to center myself.</li>
+    <li>Keeping my hands busy — coding, journaling, even cleaning.</li>
+    <li>Reminding myself that I’ve made it this far, and I’m not going back.</li>
+  </ul>
+
+  <p>
+    This blog isn’t just for me. It’s for <em>you</em>, if you’re trying to quit. It’s for the version of me who thought it was impossible. It’s for anyone who needs to hear this:
+  </p>
+
+  <blockquote>
+    You’re stronger than the urge. And the fog will clear.
+  </blockquote>
+
+  <p><strong>Have you quit smoking or are thinking about it?</strong><br>
+  Leave a comment. Share your story. Or just say hello — we’re in this together.</p>
+
+  <hr style="margin-top: 3rem;">
+
+  <form action="{{ url_for('like_post', post_id=post.id) }}" method="post">
+    <button type="submit" class="btn btn-outline-primary">❤️ Like ({{ post.likes }})</button>
+  </form>
+
+  <h3 style="margin-top: 2rem;">Comments:</h3>
+  <ul>
+    {% for comment in comments %}
+      <li style="margin-bottom: 1rem;">
+        <strong>{{ comment.username }}:</strong> {{ comment.content }}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <form action="{{ url_for('comment_post', post_id=post.id) }}" method="post">
+    <textarea name="content" placeholder="Leave a comment..." required></textarea>
+    <button type="submit" class="btn btn-primary mt-2">Post Comment</button>
+  </form>
+</div>
+{% endblock %}

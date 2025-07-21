@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="text-center mt-4">
+    <h1>Welcome to The Fog Will Clear</h1>
+    <p class="lead">Inspiration for quitting smoking and reclaiming your life.</p>
+
+    <img src="{{ url_for('static', filename='images/TEST.jpg') }}"
+         alt="TEST"
+         class="img-fluid mt-4"
+         style="max-height: 400px;">
+</div>
+{% endblock %}

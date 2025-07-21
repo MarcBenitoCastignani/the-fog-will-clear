@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>The Fog Will Clear</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="main-layout">
+        <div class="content-area">
+            <header>
+                <div class="header-container">
+                    <div class="branding">
+                        <img src="{{ url_for('static', filename='header.jpg') }}" alt="Header Image" class="header-img">
+                        <h1 class="site-title">The Fog Will Clear</h1>
+                    </div>
+                </div>
+            </header>
+
+            <main>
+                {% block content %}{% endblock %}
+            </main>
+
+            <footer>
+                <p>&copy; {{ current_year }} The Fog Will Clear</p>
+            </footer>
+        </div>
+
+        <aside class="right-navbar">
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('blog') }}">Blog</a></li>
+                    <li><a href="{{ url_for('tips') }}">Tips</a></li>
+                    <li><a href="{{ url_for('motivation') }}">Motivation</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    {% if session.get('logged_in') %}
+                        <li><a href="{{ url_for('add_post') }}">Add Post</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{{ url_for('login') }}">Login</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </aside>
+    </div>
+</body>
+</html>

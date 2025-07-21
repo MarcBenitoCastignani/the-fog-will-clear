@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="motivation-section">
+    <h2>Stay Motivated to Quit Smoking</h2>
+    <p>Quitting smoking is a challenging but incredibly rewarding journey. Remember:</p>
+    <img src="{{ url_for('static', filename='images/motivation.jpg') }}" alt="motivation" style="max-width: 30%; height: auto; border-radius: 8px; margin-top: 20px;">
+    <ul>
+      <li><strong>You are stronger than your cravings.</strong></li>
+      <li><strong>Every smoke-free day is a victory.</strong></li>
+      <li><strong>Your health and happiness are worth the effort.</strong></li>
+      <li><strong>Setbacks are just stepping stones to success.</strong></li>
+      <li><strong>Celebrate your progress, no matter how small.</strong></li>
+      <li><strong>You're inspiring others by choosing to quit.</strong></li>
+    </ul>
+    <p>Keep pushing forward — <em>the fog will clear.</em></p>
+  </section>
+{% endblock %}
