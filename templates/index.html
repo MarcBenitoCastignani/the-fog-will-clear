@@ -1,12 +1,65 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="text-center mt-4">
-    <h1>Welcome to The Fog Will Clear</h1>
-    <p class="lead">Inspiration for quitting smoking and reclaiming your life.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Fog Will Clear</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <div class="main-layout">
+    <div class="content-area">
+      <header>
+        <div class="header-container">
+          <div class="branding">
+            <img src="{{ url_for('static', filename='header.jpg') }}" alt="Header Image" class="header-img" />
+            <h1 class="site-title">The Fog Will Clear</h1>
+          </div>
+        </div>
+      </header>
 
-    <img src="{{ url_for('static', filename='images/TEST.jpg') }}"
-         alt="TEST"
-         class="img-fluid mt-4"
-         style="max-height: 400px;">
-</div>
-{% endblock %}
+      <main>
+        {% if latest_post %}
+          <section class="featured-post">
+            <h2>Today's Featured Post</h2>
+            <h3>{{ latest_post.title }}</h3>
+            <p>
+              {{ latest_post.content[:300] }}
+              {% if latest_post.content|length > 300 %}...{% endif %}
+            </p>
+            <a href="{{ url_for('view_post', post_id=latest_post.id) }}">Read More</a>
+          </section>
+        {% else %}
+          <p>No posts available yet.</p>
+        {% endif %}
+
+        {% block content %}
+        <!-- Other page content can go here -->
+        {% endblock %}
+      </main>
+
+      <footer>
+        <p>&copy; {{ current_year }} The Fog Will Clear</p>
+      </footer>
+    </div>
+
+    <aside class="right-navbar">
+      <nav>
+        <ul class="nav-links">
+          <li><a href="{{ url_for('home') }}">Home</a></li>
+          <li><a href="{{ url_for('blog') }}">Blog</a></li>
+          <li><a href="{{ url_for('tips') }}">Tips</a></li>
+          <li><a href="{{ url_for('motivation') }}">Motivation</a></li>
+          <li><a href="{{ url_for('contact') }}">Contact</a></li>
+          {% if session.get('logged_in') %}
+            <li><a href="{{ url_for('add_post') }}">Add Post</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+          {% else %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </aside>
+  </div>
+</body>
+</html>
