@@ -1,20 +1,20 @@
+import os
+from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from datetime import datetime
 
-app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+# Load environment variables from .env
+load_dotenv()
 
-# --- Database configuration ---
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    'postgresql://neondb_owner:npg_I2hxq8DMyFtA@ep-empty-recipe-aem5mglb-pooler.c-2.us-east-2.aws.neon.tech/neondb'
-    '?sslmode=require&channel_binding=require'
-)
+app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")  # Secret key from .env
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")  # DB URL from .env
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Create SQLAlchemy instance with pool_pre_ping
-db = SQLAlchemy(app, engine_options={"pool_pre_ping": True})
+# Initialize database and migrations
+db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 # --- Models ---
@@ -32,7 +32,7 @@ class Comment(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 
-# --- Context Processor ---
+# --- Context Processor for Footer Year ---
 @app.context_processor
 def inject_now():
     return {'current_year': datetime.now().year}
@@ -135,5 +135,5 @@ def add_comment(post_id):
 # --- Run App ---
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all()
+        db.create_all()  # Create tables if they don’t exist
     app.run(debug=True, host="0.0.0.0", port=5000)
