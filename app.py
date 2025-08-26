@@ -9,8 +9,8 @@ from datetime import datetime
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.environ.get("FLASK_SECRET_KEY")  # Secret key from .env
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")  # DB URL from .env
+app.secret_key = os.environ.get("FLASK_SECRET_KEY")  # Secret key
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_URL")  # DB URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize database and migrations
@@ -111,7 +111,7 @@ def contact():
 def login():
     error = None
     if request.method == 'POST':
-        if request.form['username'] == 'Marc' and request.form['password'] == 'Psytrance1!':
+        if request.form['username'] == os.environ.get("ADMIN_USER") and request.form['password'] == os.environ.get("ADMIN_PASS"):
             session['logged_in'] = True
             return redirect(url_for('blog'))
         else:
