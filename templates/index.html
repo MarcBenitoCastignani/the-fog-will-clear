@@ -33,9 +33,17 @@
           <p>No posts available yet.</p>
         {% endif %}
 
-        {% block content %}
-        <!-- Other page content can go here -->
-        {% endblock %}
+        <!-- CTA for Sign Up -->
+        {% if not session.get('logged_in') %}
+          <div style="text-align:center; margin: 30px 0;">
+            <a href="{{ url_for('signup') }}"
+               style="padding: 12px 25px; background-color: #28a745; color: white; border-radius: 6px; text-decoration: none; font-weight: bold;">
+              Sign Up Now
+            </a>
+          </div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
       </main>
 
       <footer>
@@ -51,11 +59,20 @@
           <li><a href="{{ url_for('tips') }}">Tips</a></li>
           <li><a href="{{ url_for('motivation') }}">Motivation</a></li>
           <li><a href="{{ url_for('contact') }}">Contact</a></li>
+
           {% if session.get('logged_in') %}
-            <li><a href="{{ url_for('add_post') }}">Add Post</a></li>
-            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+              {% if session.get('is_admin') %}
+                  <li><a href="{{ url_for('add_post') }}">Add Post</a></li>
+              {% endif %}
+              <li><a href="{{ url_for('logout') }}">Logout</a></li>
           {% else %}
-            <li><a href="{{ url_for('login') }}">Login</a></li>
+              <li><a href="{{ url_for('login') }}">Login</a></li>
+              <li>
+                <a href="{{ url_for('signup') }}"
+                   style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 5px; display: inline-block; text-decoration: none;">
+                  Sign Up
+                </a>
+              </li>
           {% endif %}
         </ul>
       </nav>

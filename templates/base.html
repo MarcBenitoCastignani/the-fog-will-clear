@@ -16,6 +16,13 @@
                         <h1 class="site-title">The Fog Will Clear</h1>
                     </div>
                 </div>
+
+                <!-- 👋 Welcome message -->
+                {% if session.get('logged_in') %}
+                <div style="text-align: right; margin: 10px; font-weight: bold;">
+                    👋 Welcome, {{ session.get('username') }}!
+                </div>
+                {% endif %}
             </header>
 
             <main>
@@ -36,10 +43,18 @@
                     <li><a href="{{ url_for('motivation') }}">Motivation</a></li>
                     <li><a href="{{ url_for('contact') }}">Contact</a></li>
                     {% if session.get('logged_in') %}
-                        <li><a href="{{ url_for('add_post') }}">Add Post</a></li>
+                        {% if session.get('is_admin') %}
+                            <li><a href="{{ url_for('add_post') }}">Add Post</a></li>
+                        {% endif %}
                         <li><a href="{{ url_for('logout') }}">Logout</a></li>
                     {% else %}
                         <li><a href="{{ url_for('login') }}">Login</a></li>
+                        <li>
+                            <a href="{{ url_for('signup') }}"
+                               style="background-color: #28a745; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none;">
+                               Sign Up
+                            </a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>

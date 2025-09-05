@@ -2,7 +2,7 @@
 
 {% block content %}
 <div style="max-width: 400px; margin: 50px auto; padding: 20px; background-color: white; border-radius: 10px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);">
-    <h2 style="text-align: center;">Login</h2>
+    <h2 style="text-align: center;">Sign Up</h2>
 
     <!-- Flash Messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -20,19 +20,22 @@
     {% endif %}
 
     <form method="POST" style="display: flex; flex-direction: column;">
+        <label>Username</label>
+        <input type="text" name="username" placeholder="Enter username" required style="padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+
         <label>Email</label>
         <input type="email" name="email" placeholder="Enter email" required style="padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
 
         <label>Password</label>
         <input type="password" name="password" placeholder="Enter password" required style="padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 5px;">
 
-        <button type="submit" style="padding: 10px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s;">
-            Login
+        <button type="submit" style="padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s;">
+            Sign Up
         </button>
     </form>
 
     <p style="text-align: center; margin-top: 15px;">
-        Don’t have an account? <a href="{{ url_for('signup') }}">Sign up here</a>
+        Already have an account? <a href="{{ url_for('login') }}">Login here</a>
     </p>
 </div>
 {% endblock %}

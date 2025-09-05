@@ -1,47 +1,55 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
+
 {% block content %}
-  <h1>{{ post.title }}</h1>
-  <p>{{ post.content }}</p>
+  <div class="post-detail" style="max-width: 800px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
 
-  <form action="{{ url_for('like_post', post_id=post.id) }}" method="post" style="margin-bottom: 20px;">
-      <button type="submit">Like ❤️ ({{ post.likes }})</button>
-  </form>
+    <!-- Welcome message -->
+    {% if session.get('logged_in') %}
+      <p style="font-weight:bold; font-size:16px;">Welcome, {{ session.get('username') }}!</p>
+    {% endif %}
 
-  <h3>Comments:</h3>
-  {% if comments %}
-    {% for comment in comments %}
-      <div style="border: 1px solid #ccc; padding: 10px; margin-top: 10px; border-radius: 5px;">
-        <p>{{ comment.content }}</p>
-        <small>
-          Posted on
-          {% if comment.created_at %}
-            {{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}
-          {% else %}
-            Unknown date
-          {% endif %}
-        </small>
-      </div>
-    {% endfor %}
-  {% else %}
-    <p>No comments yet.</p>
-  {% endif %}
+    <!-- Post content -->
+    <h2 style="margin-top:10px;">{{ post.title }}</h2>
+    <p style="margin-bottom:10px;">{{ post.content }}</p>
+    <p style="font-weight:bold;">Likes: {{ post.likes }}</p>
 
-  <h3>Add a Comment</h3>
-  <form method="POST" action="{{ url_for('add_comment', post_id=post.id) }}" style="margin-top: 15px;">
-    <textarea name="content" rows="5" style="width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;" placeholder="Write your comment here..." required></textarea><br><br>
-    <button type="submit" style="padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer;">
-      Post Comment
-    </button>
-  </form>
-
-  {% if session.get('logged_in') %}
-    <div style="margin-top: 25px;">
-      <a href="{{ url_for('edit_post', post_id=post.id) }}" style="margin-right: 15px; padding: 8px 15px; background-color: #ffc107; color: black; text-decoration: none; border-radius: 5px;">Edit Post</a>
-      <form action="{{ url_for('delete_post', post_id=post.id) }}" method="post" style="display: inline;">
-        <button type="submit" onclick="return confirm('Are you sure you want to delete this post?');" style="padding: 8px 15px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">
-          Delete Post
+    <!-- Like button -->
+    {% if session.get('logged_in') %}
+      <form action="{{ url_for('like_post', post_id=post.id) }}" method="POST" style="margin-bottom: 20px;">
+        <button type="submit" style="padding:10px 20px; background-color:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">
+          Like
         </button>
       </form>
-    </div>
-  {% endif %}
+    {% endif %}
+
+    <!-- Comments section -->
+    <h3>Comments</h3>
+    {% if comments %}
+      {% for comment in comments %}
+        <div class="comment" style="padding:10px; margin-bottom:10px; border:1px solid #ddd; border-radius:5px; background-color:#f9f9f9;">
+          <p><strong>{{ comment.username }}</strong>: {{ comment.content }}</p>
+          <small style="color:#666;">{{ comment.created_at.strftime('%Y-%m-%d %H:%M') }}</small>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>No comments yet.</p>
+    {% endif %}
+
+    <!-- Add comment form -->
+    {% if session.get('logged_in') %}
+      <div class="comment-form" style="margin-top:20px;">
+        <h4>Add a Comment</h4>
+        <form action="{{ url_for('add_comment', post_id=post.id) }}" method="POST" style="display:flex; flex-direction:column;">
+          <textarea name="content" rows="4" placeholder="Write your comment..." required
+                    style="padding:10px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc;"></textarea>
+          <button type="submit" style="padding:10px 20px; background-color:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">
+            Submit Comment
+          </button>
+        </form>
+      </div>
+    {% else %}
+      <p><a href="{{ url_for('login') }}">Log in</a> to add a comment.</p>
+    {% endif %}
+
+  </div>
 {% endblock %}
